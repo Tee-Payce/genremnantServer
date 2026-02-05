@@ -2,7 +2,7 @@ const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
 // Create or open database
-const db = new sqlite3.Database(path.resolve(__dirname, '../../genremnant.db'), (err) => {
+const db = new sqlite3.Database(path.resolve(__dirname, '../database.db'), (err) => {
   if (err) {
     console.error('Database connection error:', err);
   } else {
@@ -27,6 +27,10 @@ const initializeDatabase = () => {
         status TEXT DEFAULT 'active' CHECK(status IN ('active', 'suspended', 'inactive')),
         contributorRequestStatus TEXT DEFAULT NULL CHECK(contributorRequestStatus IN ('pending', 'approved', 'rejected')),
         rejectionFeedback TEXT,
+        whatsapp TEXT,
+        instagram TEXT,
+        tiktok TEXT,
+        facebook TEXT,
         createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
         updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
       )
