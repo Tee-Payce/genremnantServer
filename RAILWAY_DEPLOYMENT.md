@@ -20,10 +20,10 @@ CORS_ORIGIN=https://your-frontend-domain.com
 ```
 
 ### 3. Build Configuration
-**Build Command:** `npm install`
+**Build Command:** `npm install && npm rebuild sqlite3`
 **Start Command:** `npm start`
 
-Railway auto-detects these from package.json, but you can set them manually in Settings if needed.
+The rebuild command fixes SQLite3 binary compatibility issues on Railway's Linux environment.
 
 ### 4. Database Setup
 Add to your Railway service:

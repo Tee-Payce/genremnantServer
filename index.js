@@ -10,6 +10,7 @@ const postRoutes = require('./routes/postRoutes');
 const interactionRoutes = require('./routes/interactionRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const userRoutes = require('./routes/userRoutes');
+const setupRoutes = require('./routes/setupRoutes');
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use('/api/posts', postRoutes);
 app.use('/api/interactions', interactionRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/users', userRoutes);
+app.use('/setup', setupRoutes);
 
 // Health check
 app.get('/health', (req, res) => {
