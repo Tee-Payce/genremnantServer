@@ -253,6 +253,7 @@ router.post('/friend-request/accept', verifyToken, async (req, res) => {
     const db = new sqlite3.Database(dbPath);
     
     // Update friendship status to accepted
+    // requestId is actually the requester's user ID
     db.run(`
       UPDATE friendships 
       SET status = 'accepted', updated_at = CURRENT_TIMESTAMP

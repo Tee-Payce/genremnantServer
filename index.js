@@ -43,6 +43,17 @@ app.get('/debug-users', (req, res) => {
   });
 });
 
+// Debug endpoint to check friendships table
+app.get('/debug-friendships', (req, res) => {
+  const db = require('./config/database');
+  db.all('SELECT * FROM friendships', [], (err, rows) => {
+    if (err) {
+      return res.status(500).json({ error: err.message, message: 'Friendships table may not exist' });
+    }
+    res.json({ friendships: rows, count: rows.length });
+  });
+});
+
 // One-time admin creation endpoint
 app.post('/create-admin-now', async (req, res) => {
   const bcrypt = require('bcryptjs');
