@@ -32,6 +32,17 @@ app.get('/health', (req, res) => {
   res.json({ status: 'Server is running' });
 });
 
+// Debug endpoint to check users
+app.get('/debug-users', (req, res) => {
+  const db = require('./config/database');
+  db.all('SELECT id, email, displayName, role, status FROM users', [], (err, rows) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json({ users: rows, count: rows.length });
+  });
+});
+
 // One-time admin creation endpoint
 app.post('/create-admin-now', async (req, res) => {
   const bcrypt = require('bcryptjs');
