@@ -32,6 +32,37 @@ app.get('/health', (req, res) => {
   res.json({ status: 'Server is running' });
 });
 
+// One-time admin creation endpoint
+app.post('/create-admin-now', async (req, res) => {
+  const bcrypt = require('bcryptjs');
+  const { v4: uuidv4 } = require('uuid');
+  const db = require('./config/database');
+  
+  try {
+    const adminEmail = 'teepayce11@gmail.com';
+    const adminPassword = '123pass#';
+    const adminDisplayName = 'Admin User';
+    const passwordHash = await bcrypt.hash(adminPassword, 10);
+    const userId = uuidv4();
+
+    db.run(
+      `INSERT INTO users (id, email, displayName, passwordHash, role, status) VALUES (?, ?, ?, ?, ?, ?)`,
+      [userId, adminEmail, adminDisplayName, passwordHash, 'admin', 'active'],
+      function (err) {
+        if (err) {
+          if (err.message.includes('UNIQUE constraint failed')) {
+            return res.json({ message: 'Admin user already exists' });
+          }
+          return res.status(500).json({ error: err.message });
+        }
+        res.json({ success: true, message: 'Admin created', email: adminEmail, userId });
+      }
+    );
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Error handling
 app.use(errorHandler);
 
