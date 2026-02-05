@@ -32,6 +32,29 @@ app.get('/health', (req, res) => {
   res.json({ status: 'Server is running' });
 });
 
+// Debug token endpoint
+app.get('/debug-token', async (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) {
+    return res.json({ error: 'No token provided' });
+  }
+  
+  try {
+    const User = require('./models/User');
+    const user = await User.findById(token);
+    if (!user) {
+      return res.json({ error: 'User not found', token });
+    }
+    res.json({ 
+      success: true, 
+      user: { id: user.id, email: user.email, role: user.role, status: user.status },
+      token 
+    });
+  } catch (error) {
+    res.json({ error: error.message, token });
+  }
+});
+
 // One-time admin creation endpoint
 app.post('/create-admin-now', async (req, res) => {
   const bcrypt = require('bcryptjs');
