@@ -1,12 +1,17 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
+// Use volume mount path in production, local path in development
+const dbPath = process.env.NODE_ENV === 'production' 
+  ? '/app/data/database.db'
+  : path.resolve(__dirname, '../database.db');
+
 // Create or open database
-const db = new sqlite3.Database(path.resolve(__dirname, '../database.db'), (err) => {
+const db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
     console.error('Database connection error:', err);
   } else {
-    console.log('Connected to SQLite database');
+    console.log('Connected to SQLite database at:', dbPath);
     initializeDatabase();
   }
 });

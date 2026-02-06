@@ -1,0 +1,16 @@
+{
+  "build": {
+    "builder": "NIXPACKS"
+  },
+  "deploy": {
+    "startCommand": "npm start",
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 10,
+    "volumeMounts": [
+      {
+        "mountPath": "/app/data",
+        "volumeName": "genremnant-data"
+      }
+    ]
+  }
+}
